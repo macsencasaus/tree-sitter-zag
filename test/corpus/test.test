@@ -24,8 +24,14 @@ char literal
 'a';
 '\n';
 '\'';
+'\xFF';
+'\660';
+'';
 ---
 (program
+  (char_literal)
+  (char_literal)
+  (char_literal)
   (char_literal)
   (char_literal)
   (char_literal))

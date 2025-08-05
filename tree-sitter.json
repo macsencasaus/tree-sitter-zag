@@ -9,6 +9,7 @@
       "file-types": [
         "zag"
       ],
+      "highlights": "queries/highlights.scm",
       "injection-regex": "^zag$",
       "class-name": "TreeSitterZag"
     }

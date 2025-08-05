@@ -98,7 +98,7 @@ module.exports = grammar({
     ),
 
     identifier: (_) => prec(PREC.primary, /[A-Za-z_][A-Za-z0-9_]*/),
-    char_literal: (_) => prec(PREC.primary, /'([^\\'\n]|\\[abfnrtv\\'"0-7xuU])'/),
+    char_literal: (_) => prec(PREC.primary, /''|'(?:[^'\\]|\\[abfnrtv\\'"]|\\x[0-9A-Fa-f]{1,2}|\\[0-7]{1,3})'/),
     int_literal: (_) => prec(PREC.primary, /\d+/),
     string_literal: (_) => prec(PREC.primary, /"(?:\\.|[^"\\])*"/),
     list_literal: ($) => prec(PREC.primary, seq("[", optional(field("length", $.int_literal)), "]", $._type, "{", sep($._expr, ","), "}")),
