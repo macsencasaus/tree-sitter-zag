@@ -25,6 +25,7 @@
   "var"
   "return"
   "if"
+  "else"
   "while"
   "break"
   "continue"
