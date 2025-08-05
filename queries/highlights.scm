@@ -9,6 +9,17 @@
 (fn
   function: (identifier) @Function)
 
+(fn
+  param: (identifier) @Function
+  .
+  param_type: (fn_type))
+
+(var
+  .
+  (identifier) @Function
+  .
+  (fn_type))
+
 [
   "fn"
   "var"
