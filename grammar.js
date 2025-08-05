@@ -45,20 +45,20 @@ module.exports = grammar({
     
     _fn_qualifier: (_) => "extern",
 
-    _fn_decl: ($) => 
+    _fn_decl: ($) =>
       seq(
-        optional($._fn_qualifier), 
-        "fn", 
-        $.identifier, 
-        "(", 
-        field("params", sep(choice(seq($.identifier, ":", $.type), "..."), ",")), 
-        ")", 
-        field("ret_type", $.type),
+        optional($._fn_qualifier),
+        "fn",
+        field("function", $.identifier),
+        "(",
+        field("params", sep(choice(seq($.identifier, ":", $._type), "..."), ",")),
+        ")",
+        field("ret_type", $._type),
       ),
 
     fn: ($) => seq($._fn_decl, choice(";", $.block)),
 
-    var: ($) => seq("var", $.identifier, optional(seq(":", $.type)), optional(seq("=", $._expr)), ";"),
+    var: ($) => seq("var", $.identifier, optional(seq(":", $._type)), optional(seq("=", $._expr)), ";"),
 
     return: ($) => seq("return", $._expr, ";"),
 
@@ -101,13 +101,13 @@ module.exports = grammar({
     char_literal: (_) => prec(PREC.primary, /'([^\\'\n]|\\[abfnrtv\\'"0-7xuU])'/),
     int_literal: (_) => prec(PREC.primary, /\d+/),
     string_literal: (_) => prec(PREC.primary, /"(?:\\.|[^"\\])*"/),
-    list_literal: ($) => prec(PREC.primary, seq("[", optional(field("length", $.int_literal)), "]", $.type, "{", sep($._expr, ","), "}")),
+    list_literal: ($) => prec(PREC.primary, seq("[", optional(field("length", $.int_literal)), "]", $._type, "{", sep($._expr, ","), "}")),
 
     _prefix_operator: (_) => choice("-", "!", "~", "--", "++", "*", "&"),
     prefix_expr: ($) => prec(PREC.prefix, seq($._prefix_operator, field("right", $._expr))),
     postfix_expr: ($) => prec(PREC.postfix, seq($._expr, choice("++", "--"))),
 
-    call_expr: ($) => prec(PREC.call, seq($._expr, "(", sep($._expr, ","), ")")),
+    call_expr: ($) => prec(PREC.call, seq(field("function", $._expr), "(", sep($._expr, ","), ")")),
     index_expr: ($) => prec(PREC.call, seq($._expr, "[", $._expr, "]")),
     _group_expr: ($) => seq("(", $._expr, ")"),
 
@@ -138,14 +138,14 @@ module.exports = grammar({
       );
     },
 
-    type: ($) => choice(
-      $._builtin_type,
-      $._ptr_type,
-      $._arr_type,
-      $._fn_type,
+    _type: ($) => choice(
+      $.primitive_type,
+      $.ptr_type,
+      $.arr_type,
+      $.fn_type,
     ),
 
-    _builtin_type: ($) => choice(
+    primitive_type: ($) => choice(
       "i8",
       "u8",
       "i16",
@@ -156,9 +156,9 @@ module.exports = grammar({
       "u64",
     ),
 
-    _ptr_type: ($) => seq("*", $.type),
-    _arr_type: ($) => seq("[", $.int_literal, "]", $.type),
-    _fn_type: ($) => seq("fn", "(", sep(choice($.type, "..."), ","), ")", $.type),
+    ptr_type: ($) => seq("*", $._type),
+    arr_type: ($) => seq("[", $.int_literal, "]", $._type),
+    fn_type: ($) => seq("fn", "(", sep(choice($._type, "..."), ","), ")", $._type),
 
     comment: (_) => token(/\/\/.*/),
   }

@@ -63,15 +63,15 @@ list literal
 ---
 (program
   (list_literal
-    (type))
+    (primitive_type))
   (list_literal
     (int_literal)
-    (type)
+    (primitive_type)
     (int_literal)
     (int_literal)
     (int_literal))
   (list_literal
-    (type)
+    (primitive_type)
     (int_literal)
     (int_literal)
     (int_literal)
@@ -288,17 +288,17 @@ extern fn printf(fmt: *u8, ...) i32;
 (program
   (fn
     (identifier)
-    (type)
+    (primitive_type)
     (block
       (return
         (int_literal))))
   (fn
     (identifier)
     (identifier)
-    (type)
+    (primitive_type)
     (identifier)
-    (type)
-    (type)
+    (primitive_type)
+    (primitive_type)
     (block
       (return
         (infix_expr
@@ -307,9 +307,9 @@ extern fn printf(fmt: *u8, ...) i32;
   (fn
     (identifier)
     (identifier)
-    (type
-      (type))
-    (type)))
+    (ptr_type
+      (primitive_type))
+    (primitive_type)))
 
 ==========
 var
@@ -321,13 +321,13 @@ var x: i32 = 2;
 (program
   (var
     (identifier)
-    (type))
+    (primitive_type))
   (var
     (identifier)
     (int_literal))
   (var
     (identifier)
-    (type)
+    (primitive_type)
     (int_literal)))
 
 ==========
@@ -345,45 +345,45 @@ var af: [10]fn(i32) i32;
 (program
   (var
     (identifier)
-    (type))
+    (primitive_type))
   (var
     (identifier)
-    (type))
+    (primitive_type))
   (var
     (identifier)
-    (type
-      (type)))
+    (ptr_type
+      (primitive_type)))
   (var
     (identifier)
-    (type
+    (arr_type
       (int_literal)
-      (type)))
+      (primitive_type)))
   (var
     (identifier)
-    (type
-      (type)
-      (type)
-      (type)))
+    (fn_type
+      (primitive_type)
+      (primitive_type)
+      (primitive_type)))
   (var
     (identifier)
-    (type
-      (type
-        (type))
-      (type)))
+    (fn_type
+      (ptr_type
+        (primitive_type))
+      (primitive_type)))
   (var
     (identifier)
-    (type
-      (type
-        (type)
-        (type)
-        (type))))
+    (ptr_type
+      (fn_type
+        (primitive_type)
+        (primitive_type)
+        (primitive_type))))
   (var
     (identifier)
-    (type
+    (arr_type
       (int_literal)
-      (type
-        (type)
-        (type)))))
+      (fn_type
+        (primitive_type)
+        (primitive_type)))))
 
 ==========
 if
