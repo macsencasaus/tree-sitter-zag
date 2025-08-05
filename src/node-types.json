@@ -248,32 +248,26 @@
           }
         ]
       },
-      "params": {
+      "param": {
         "multiple": true,
         "required": false,
         "types": [
           {
-            "type": ",",
-            "named": false
-          },
-          {
-            "type": "...",
-            "named": false
-          },
-          {
-            "type": ":",
-            "named": false
-          },
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "param_type": {
+        "multiple": true,
+        "required": false,
+        "types": [
           {
             "type": "arr_type",
             "named": true
           },
           {
             "type": "fn_type",
-            "named": true
-          },
-          {
-            "type": "identifier",
             "named": true
           },
           {

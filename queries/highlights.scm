@@ -1,13 +1,13 @@
+(identifier) @variable
+
+((identifier) @constant
+ (#match? @constant "^[A-Z][A-Z\\d_]*$"))
+
 (call_expr
   function: (identifier) @Function)
 
 (fn
   function: (identifier) @Function)
-
-(identifier) @variable
-
-((identifier) @constant
- (#match? @constant "^[A-Z][A-Z\\d_]*$"))
 
 [
   "fn"

@@ -51,7 +51,7 @@ module.exports = grammar({
         "fn",
         field("function", $.identifier),
         "(",
-        field("params", sep(choice(seq($.identifier, ":", $._type), "..."), ",")),
+        sep(choice(seq(field("param", $.identifier), ":", field("param_type", $._type)), "..."), ","),
         ")",
         field("ret_type", $._type),
       ),

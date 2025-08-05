@@ -86,51 +86,12 @@
           "value": "("
         },
         {
-          "type": "FIELD",
-          "name": "params",
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "REPEAT",
-                "content": {
-                  "type": "SEQ",
-                  "members": [
-                    {
-                      "type": "CHOICE",
-                      "members": [
-                        {
-                          "type": "SEQ",
-                          "members": [
-                            {
-                              "type": "SYMBOL",
-                              "name": "identifier"
-                            },
-                            {
-                              "type": "STRING",
-                              "value": ":"
-                            },
-                            {
-                              "type": "SYMBOL",
-                              "name": "_type"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "STRING",
-                          "value": "..."
-                        }
-                      ]
-                    },
-                    {
-                      "type": "STRING",
-                      "value": ","
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "CHOICE",
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
                 "members": [
                   {
                     "type": "CHOICE",
@@ -139,16 +100,24 @@
                         "type": "SEQ",
                         "members": [
                           {
-                            "type": "SYMBOL",
-                            "name": "identifier"
+                            "type": "FIELD",
+                            "name": "param",
+                            "content": {
+                              "type": "SYMBOL",
+                              "name": "identifier"
+                            }
                           },
                           {
                             "type": "STRING",
                             "value": ":"
                           },
                           {
-                            "type": "SYMBOL",
-                            "name": "_type"
+                            "type": "FIELD",
+                            "name": "param_type",
+                            "content": {
+                              "type": "SYMBOL",
+                              "name": "_type"
+                            }
                           }
                         ]
                       },
@@ -159,12 +128,55 @@
                     ]
                   },
                   {
-                    "type": "BLANK"
+                    "type": "STRING",
+                    "value": ","
                   }
                 ]
               }
-            ]
-          }
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SEQ",
+                      "members": [
+                        {
+                          "type": "FIELD",
+                          "name": "param",
+                          "content": {
+                            "type": "SYMBOL",
+                            "name": "identifier"
+                          }
+                        },
+                        {
+                          "type": "STRING",
+                          "value": ":"
+                        },
+                        {
+                          "type": "FIELD",
+                          "name": "param_type",
+                          "content": {
+                            "type": "SYMBOL",
+                            "name": "_type"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "STRING",
+                      "value": "..."
+                    }
+                  ]
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            }
+          ]
         },
         {
           "type": "STRING",
