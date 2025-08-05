@@ -149,8 +149,12 @@ x + y;
 x - y;
 x * y;
 x / y;
+x % y;
 ---
 (program
+  (infix_expr
+    (identifier)
+    (identifier))
   (infix_expr
     (identifier)
     (identifier))

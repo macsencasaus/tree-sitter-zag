@@ -121,7 +121,7 @@ module.exports = grammar({
         [PREC.cmp, choice("<", ">", "<=", ">=")],
         [PREC.shift, choice("<<", ">>")],
         [PREC.add, choice("+", "-")],
-        [PREC.mult, choice("*", "/")],
+        [PREC.mult, choice("*", "/", "%")],
       ];
 
       return choice(
