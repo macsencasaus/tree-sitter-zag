@@ -1,0 +1,440 @@
+==========
+comment
+==========
+// This is a comment
+---
+(program
+  (comment))
+
+==========
+identifier
+==========
+x;
+y;
+main;
+---
+(program
+  (identifier)
+  (identifier)
+  (identifier))
+
+==========
+char literal
+==========
+'a';
+'\n';
+'\'';
+---
+(program
+  (char_literal)
+  (char_literal)
+  (char_literal))
+  
+==========
+int literal
+==========
+1;
+3;
+123413413;
+---
+(program
+  (int_literal)
+  (int_literal)
+  (int_literal))
+
+==========
+string literal
+==========
+"hello world!";
+"hello world!\n";
+"\"hello world\n\"";
+---
+(program
+  (string_literal)
+  (string_literal)
+  (string_literal))
+
+==========
+list literal
+==========
+[]u8{};
+[3]u32{1, 2, 3};
+[]i64{1, 2, 3, 'a', 'c',};
+---
+(program
+  (list_literal
+    (type))
+  (list_literal
+    (int_literal)
+    (type)
+    (int_literal)
+    (int_literal)
+    (int_literal))
+  (list_literal
+    (type)
+    (int_literal)
+    (int_literal)
+    (int_literal)
+    (char_literal)
+    (char_literal)))
+
+==========
+prefix expr
+==========
+-1;
+!2;
+~3;
+--x;
+++x;
+*ptr;
+&"hello";
+---
+(program
+  (prefix_expr
+    (int_literal))
+  (prefix_expr
+    (int_literal))
+  (prefix_expr
+    (int_literal))
+  (prefix_expr
+    (identifier))
+  (prefix_expr
+    (identifier))
+  (prefix_expr
+    (identifier))
+  (prefix_expr
+    (string_literal)))
+
+==========
+call expr
+==========
+func();
+func(1,2,3);
+func(1,2,3,);
+arr[0];
+---
+(program
+  (call_expr
+    (identifier))
+  (call_expr
+    (identifier)
+    (int_literal)
+    (int_literal)
+    (int_literal))
+  (call_expr
+    (identifier)
+    (int_literal)
+    (int_literal)
+    (int_literal))
+  (index_expr
+    (identifier)
+    (int_literal)))
+
+==========
+infix expr
+==========
+x = y;
+x | y;
+x ^ y;
+x & y;
+x == y;
+x != y;
+x < y;
+x > y;
+x <= y;
+x >= y;
+x << y;
+x >> y;
+x + y;
+x - y;
+x * y;
+x / y;
+---
+(program
+  (infix_expr
+    (identifier)
+    (identifier))
+  (infix_expr
+    (identifier)
+    (identifier))
+  (infix_expr
+    (identifier)
+    (identifier))
+  (infix_expr
+    (identifier)
+    (identifier))
+  (infix_expr
+    (identifier)
+    (identifier))
+  (infix_expr
+    (identifier)
+    (identifier))
+  (infix_expr
+    (identifier)
+    (identifier))
+  (infix_expr
+    (identifier)
+    (identifier))
+  (infix_expr
+    (identifier)
+    (identifier))
+  (infix_expr
+    (identifier)
+    (identifier))
+  (infix_expr
+    (identifier)
+    (identifier))
+  (infix_expr
+    (identifier)
+    (identifier))
+  (infix_expr
+    (identifier)
+    (identifier))
+  (infix_expr
+    (identifier)
+    (identifier))
+  (infix_expr
+    (identifier)
+    (identifier))
+  (infix_expr
+    (identifier)
+    (identifier)))
+
+==========
+precedence
+==========
+--x + y;
+x + --y;
+x++ + y--;
+~x & y;
+!x == y;
+*x + &y;
+x << y + 1;
+(x + y) * z;
+x + y * z;
+x << y >> z;
+x == y != z;
+---
+(program
+  (infix_expr
+    (prefix_expr
+      (identifier))
+    (identifier))
+  (infix_expr
+    (identifier)
+    (prefix_expr
+      (identifier)))
+  (infix_expr
+    (postfix_expr
+      (identifier))
+    (postfix_expr
+      (identifier)))
+  (infix_expr
+    (prefix_expr
+      (identifier))
+    (identifier))
+  (infix_expr
+    (prefix_expr
+      (identifier))
+    (identifier))
+  (infix_expr
+    (prefix_expr
+      (identifier))
+    (prefix_expr
+      (identifier)))
+  (infix_expr
+    (identifier)
+    (infix_expr
+      (identifier)
+      (int_literal)))
+  (infix_expr
+    (infix_expr
+      (identifier)
+      (identifier))
+    (identifier))
+  (infix_expr
+    (identifier)
+    (infix_expr
+      (identifier)
+      (identifier)))
+  (infix_expr
+    (identifier)
+    (infix_expr
+      (identifier)
+      (identifier)))
+  (infix_expr
+    (identifier)
+    (infix_expr
+      (identifier)
+      (identifier))))
+
+==========
+fn
+==========
+fn main() i32 {
+  return 0;
+}
+
+fn add(x: i32, y: i32) i32 {
+  return x + y;
+}
+
+extern fn printf(fmt: *u8, ...) i32;
+---
+(program
+  (fn
+    (identifier)
+    (type)
+    (block
+      (return
+        (int_literal))))
+  (fn
+    (identifier)
+    (identifier)
+    (type)
+    (identifier)
+    (type)
+    (type)
+    (block
+      (return
+        (infix_expr
+          (identifier)
+          (identifier)))))
+  (fn
+    (identifier)
+    (identifier)
+    (type
+      (type))
+    (type)))
+
+==========
+var
+==========
+var x: i32;
+var x = 2;
+var x: i32 = 2;
+---
+(program
+  (var
+    (identifier)
+    (type))
+  (var
+    (identifier)
+    (int_literal))
+  (var
+    (identifier)
+    (type)
+    (int_literal)))
+
+==========
+types
+==========
+var x: u8;
+var x: i64;
+var x: *i32;
+var x: [3]i64;
+var f: fn(i32, i32) i32;
+var printf: fn(*u8, ...) i32;
+var fp: *fn(i32, i32) i32;
+var af: [10]fn(i32) i32;
+---
+(program
+  (var
+    (identifier)
+    (type))
+  (var
+    (identifier)
+    (type))
+  (var
+    (identifier)
+    (type
+      (type)))
+  (var
+    (identifier)
+    (type
+      (int_literal)
+      (type)))
+  (var
+    (identifier)
+    (type
+      (type)
+      (type)
+      (type)))
+  (var
+    (identifier)
+    (type
+      (type
+        (type))
+      (type)))
+  (var
+    (identifier)
+    (type
+      (type
+        (type)
+        (type)
+        (type))))
+  (var
+    (identifier)
+    (type
+      (int_literal)
+      (type
+        (type)
+        (type)))))
+
+==========
+if
+==========
+if x return y;
+
+if cond
+  return x;
+else
+  return y;
+---
+(program
+  (if
+    (identifier)
+    (return
+      (identifier)))
+  (if
+    (identifier)
+    (return
+      (identifier))
+    (return
+      (identifier))))
+
+==========
+while
+==========
+var x = 0;
+while x < 1000 {
+  if (x > 800)
+    break;
+
+  ++x;
+
+  if (x > 500)
+    continue;
+}
+---
+(program
+  (var
+    (identifier)
+    (int_literal))
+  (while
+    (infix_expr
+      (identifier)
+      (int_literal))
+    (block
+      (if
+        (infix_expr
+          (identifier)
+          (int_literal))
+        (break))
+      (prefix_expr
+        (identifier))
+      (if
+        (infix_expr
+          (identifier)
+          (int_literal))
+        (continue)))))
