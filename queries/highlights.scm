@@ -29,6 +29,7 @@
   "while"
   "break"
   "continue"
+  "extern"
 ] @keyword
 
 [
